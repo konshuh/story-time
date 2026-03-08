@@ -2,164 +2,207 @@
  * Kenney RPG Urban Pack tile index constants.
  * Tilemap: assets/rpg-urban-tilemap.png (27 cols × 18 rows, 16×16 tiles)
  * Tile index = row * 27 + col
+ *
+ * The pack uses 9-patch systems: TL/T/TR/L/C/R/BL/B/BR for borders.
+ * Use "center" or "solid" variants for fill areas, border pieces only at edges.
  */
 
-// ── Tilemap dimensions ──
 export const COLS = 27;
-
-// ── Helper: row,col → index ──
 const t = (row, col) => row * COLS + col;
 
-// ── Green terrain (rows 0-2, cols 0-7) ──
-export const GRASS_PLAIN    = t(0, 0);   // solid green
-export const GRASS_DETAIL   = t(0, 1);   // green with detail
-export const GRASS_EDGE_T   = t(0, 2);   // grass edge top
-export const GRASS_EDGE_L   = t(1, 0);   // grass edge left
-export const GRASS_CENTER   = t(1, 1);   // grass center
-export const GRASS_EDGE_R   = t(1, 2);   // grass edge right
-export const GRASS_EDGE_B   = t(2, 0);   // grass edge bottom
-export const GRASS_PATH     = t(2, 1);   // grass with path
-export const GRASS_CORNER   = t(2, 2);   // grass corner
+// ── Grass 9-patch (rows 0-2, cols 0-2) ──
+// These have gray borders; use for edge transitions
+export const GRASS_TL    = t(0, 0);  // 0
+export const GRASS_T     = t(0, 1);  // 1
+export const GRASS_TR    = t(0, 2);  // 2
+export const GRASS_L     = t(1, 0);  // 27
+export const GRASS_C     = t(1, 1);  // 28  — center fill with border detail
+export const GRASS_R     = t(1, 2);  // 29
+export const GRASS_BL    = t(2, 0);  // 54
+export const GRASS_B     = t(2, 1);  // 55
+export const GRASS_BR    = t(2, 2);  // 56
 
-// ── Roads / concrete (rows 3-5, cols 0-7) ──
-export const ROAD_H         = t(3, 0);   // horizontal road
-export const ROAD_V         = t(3, 1);   // vertical road
-export const ROAD_CROSS     = t(3, 2);   // road crossing
-export const ROAD_PLAIN     = t(3, 3);   // plain road
-export const SIDEWALK       = t(4, 0);   // sidewalk
-export const SIDEWALK_EDGE  = t(4, 1);   // sidewalk edge
-export const CONCRETE       = t(4, 2);   // concrete
-export const ROAD_DASH      = t(5, 0);   // road with markings
-export const ROAD_TURN      = t(5, 1);   // road turn
+// ── Grass solid fill (rows 0-1, cols 5-6) — NO borders ──
+export const GRASS_FILL1 = t(0, 5);  // 5   — solid teal-green
+export const GRASS_FILL2 = t(0, 6);  // 6   — solid teal-green variant
+export const GRASS_FILL3 = t(1, 5);  // 32
+export const GRASS_FILL4 = t(1, 6);  // 33
 
-// ── Buildings interior (rows 0-5, cols 8-14) ──
-export const WALL_PLAIN     = t(0, 8);   // interior wall
-export const WALL_WINDOW    = t(0, 9);   // wall with window
-export const FLOOR_TILE     = t(0, 10);  // tiled floor
-export const FLOOR_WOOD     = t(1, 8);   // wood floor
-export const FLOOR_CHECK    = t(1, 9);   // checkered floor
-export const DOOR           = t(1, 10);  // door
-export const WALL_2         = t(2, 8);   // wall variant 2
-export const SHELF          = t(2, 9);   // shelf/furniture
-export const TABLE          = t(2, 10);  // table
-export const INT_WALL_A     = t(3, 8);   // interior wall A
-export const INT_FLOOR_A    = t(3, 9);   // interior floor A
-export const INT_FLOOR_B    = t(3, 10);  // interior floor B
-export const WINDOW_LG      = t(4, 8);   // large window
-export const CARPET         = t(4, 9);   // carpet/rug
-export const CHAIR          = t(4, 10);  // chair
+// ── Grass with details (rows 0-2, cols 3-4) ──
+export const GRASS_DET_TL = t(0, 3); // 3   — grass with rock/detail
+export const GRASS_DET_TR = t(0, 4); // 4
+export const GRASS_DET_BL = t(1, 3); // 30
+export const GRASS_DET_BR = t(1, 4); // 31
 
-// ── Red/brown rooftops (rows 0-2, cols 15-22) ──
-export const ROOF_TL        = t(0, 15);  // roof top-left
-export const ROOF_T         = t(0, 16);  // roof top
-export const ROOF_TR        = t(0, 17);  // roof top-right
-export const ROOF_ML        = t(1, 15);  // roof mid-left
-export const ROOF_M         = t(1, 16);  // roof middle
-export const ROOF_MR        = t(1, 17);  // roof mid-right
-export const ROOF_BL        = t(2, 15);  // roof bottom-left
-export const ROOF_B         = t(2, 16);  // roof bottom
-export const ROOF_BR        = t(2, 17);  // roof bottom-right
-export const ROOF2_TL       = t(0, 18);  // brown roof top-left
-export const ROOF2_T        = t(0, 19);  // brown roof top
-export const ROOF2_TR       = t(0, 20);  // brown roof top-right
-export const ROOF2_BL       = t(1, 18);  // brown roof bottom-left
-export const ROOF2_B        = t(1, 19);  // brown roof bottom
-export const ROOF2_BR       = t(1, 20);  // brown roof bottom-right
+// ── Path/grass transitions (row 2, cols 3-7) ──
+export const GRASS_PATH_TL = t(2, 3); // 57
+export const GRASS_PATH_TR = t(2, 4); // 58
+export const GRASS_PATH_B2 = t(2, 5); // 59
+export const GRASS_PATH_C  = t(2, 6); // 60
+export const GRASS_PATH_7  = t(2, 7); // 61
 
-// ── Building facades (rows 8-11, cols 0-7) ──
-export const FACADE_WIN     = t(8, 0);   // facade with window
-export const FACADE_PLAIN   = t(8, 1);   // facade plain
-export const FACADE_DOOR    = t(8, 2);   // facade with door
-export const FACADE_WIN2    = t(9, 0);   // facade window variant
-export const FACADE_BALC    = t(9, 1);   // facade balcony
-export const FACADE_BOT     = t(9, 2);   // facade bottom
-export const SHOP_TOP       = t(10, 0);  // shop front top
-export const SHOP_BOT       = t(10, 1);  // shop front bottom
-export const SHOP_DOOR      = t(10, 2);  // shop door
-export const BLDG_TOP       = t(8, 3);   // building top
-export const BLDG_MID       = t(9, 3);   // building middle
-export const BLDG_BOT       = t(10, 3);  // building bottom
+// ── Road/path 9-patch (rows 3-5, cols 0-2) — beige/tan with purple borders ──
+export const PATH_TL     = t(3, 0);  // 81
+export const PATH_T      = t(3, 1);  // 82
+export const PATH_TR     = t(3, 2);  // 83
+export const PATH_L      = t(4, 0);  // 108
+export const PATH_C      = t(4, 1);  // 109  — beige center
+export const PATH_R      = t(4, 2);  // 110
+export const PATH_BL     = t(5, 0);  // 135
+export const PATH_B      = t(5, 1);  // 136
+export const PATH_BR     = t(5, 2);  // 137
 
-// ── Objects (rows 6-7, cols 0-7) ──
-export const LAMP           = t(6, 0);   // lamp/light
-export const SIGN           = t(6, 1);   // sign
-export const BENCH          = t(6, 2);   // bench
-export const TRASH          = t(6, 3);   // trash can
-export const FENCE_L        = t(7, 0);   // fence left
-export const FENCE_M        = t(7, 1);   // fence middle
-export const FENCE_R        = t(7, 2);   // fence right
-export const HYDRANT        = t(7, 3);   // hydrant
+// ── Path solid fill (rows 3-4, cols 5-6) ──
+export const PATH_FILL1  = t(3, 5);  // 86  — solid beige
+export const PATH_FILL2  = t(3, 6);  // 87
+export const PATH_FILL3  = t(4, 5);  // 113
+export const PATH_FILL4  = t(4, 6);  // 114
 
-// ── Water (rows 6-7, cols 8-15) ──
-export const WATER          = t(6, 8);   // water
-export const WATER_EDGE_T   = t(6, 9);   // water edge top
-export const WATER_EDGE_L   = t(6, 10);  // water edge left
-export const WATER_CENTER   = t(7, 8);   // water center
-export const WATER_EDGE_R   = t(7, 9);   // water edge right
-export const WATER_EDGE_B   = t(7, 10);  // water edge bottom
+// ── Path details (rows 3-5, cols 3-4) ──
+export const PATH_DET_TL = t(3, 3);  // 84
+export const PATH_DET_TR = t(3, 4);  // 85
+export const PATH_DET_BL = t(4, 3);  // 111
+export const PATH_DET_BR = t(4, 4);  // 112
 
-// ── Trees (rows 8-11, cols 16-22) ──
-export const TREE_GREEN_TL  = t(8, 16);  // green tree top-left
-export const TREE_GREEN_TR  = t(8, 17);  // green tree top-right
-export const TREE_GREEN_BL  = t(9, 16);  // green tree bottom-left
-export const TREE_GREEN_BR  = t(9, 17);  // green tree bottom-right
-export const TREE_SM_T      = t(8, 18);  // small tree top
-export const TREE_SM_B      = t(9, 18);  // small tree bottom
-export const BUSH           = t(8, 19);  // bush
-export const BUSH2          = t(9, 19);  // bush variant 2
-export const TREE_AUT_TL    = t(10, 16); // autumn tree top-left
-export const TREE_AUT_TR    = t(10, 17); // autumn tree top-right
-export const TREE_AUT_BL    = t(11, 16); // autumn tree bottom-left
-export const TREE_AUT_BR    = t(11, 17); // autumn tree bottom-right
+// ── Interior wall 9-patch (rows 0-2, cols 8-10) — gray-purple ──
+export const WALL_TL     = t(0, 8);  // 8
+export const WALL_T      = t(0, 9);  // 9
+export const WALL_TR     = t(0, 10); // 10
+export const WALL_L      = t(1, 8);  // 35
+export const WALL_C      = t(1, 9);  // 36  — solid gray center
+export const WALL_R      = t(1, 10); // 37
+export const WALL_BL     = t(2, 8);  // 62
+export const WALL_B      = t(2, 9);  // 63
+export const WALL_BR     = t(2, 10); // 64
 
-// ── Furniture / interior objects (rows 3-5, cols 11-14) ──
-export const COUCH_L        = t(3, 11);  // couch left
-export const COUCH_R        = t(3, 12);  // couch right
-export const BED_HEAD       = t(4, 11);  // bed head
-export const BED_FOOT       = t(4, 12);  // bed foot
-export const DESK           = t(5, 11);  // desk
-export const TV_SET         = t(5, 12);  // TV/monitor
-export const BOOKSHELF_T    = t(3, 13);  // bookshelf top
-export const BOOKSHELF_B    = t(4, 13);  // bookshelf bottom
-export const PLANT          = t(5, 13);  // potted plant
-export const PAINTING       = t(3, 14);  // painting on wall
-export const CURTAIN        = t(4, 14);  // curtain
-export const RUG            = t(5, 14);  // rug
+// ── Interior wall extended (rows 0-2, cols 11-14) ──
+export const WALL_EXT1   = t(0, 11); // 11  — wall w/ detail
+export const WALL_EXT2   = t(0, 12); // 12
+export const WALL_EXT3   = t(0, 13); // 13
+export const WALL_EXT4   = t(0, 14); // 14
+export const WALL_EXT5   = t(1, 11); // 38
+export const WALL_EXT6   = t(1, 12); // 39
+export const WALL_EXT7   = t(1, 13); // 40
+export const WALL_EXT8   = t(1, 14); // 41
 
-// ── Characters (cols 23-26) ──
-// 6 character types, each with 3 rows (right, down, up) × 4 frames
-// Character 1 starts at row 0, col 23
-export const CHAR1_R1 = t(0, 23);  // char 1, right, frame 1
-export const CHAR1_R2 = t(0, 24);  // char 1, right, frame 2
-export const CHAR1_R3 = t(0, 25);  // char 1, right, frame 3
-export const CHAR1_R4 = t(0, 26);  // char 1, right, frame 4
-export const CHAR1_D1 = t(1, 23);  // char 1, down, frame 1
-export const CHAR1_D2 = t(1, 24);  // char 1, down, frame 2
-export const CHAR1_D3 = t(1, 25);  // char 1, down, frame 3
-export const CHAR1_D4 = t(1, 26);  // char 1, down, frame 4
-export const CHAR1_U1 = t(2, 23);  // char 1, up, frame 1
+// ── Interior floor 9-patch (rows 3-5, cols 8-10) — warm beige/wood ──
+export const FLOOR_TL    = t(3, 8);  // 89
+export const FLOOR_T     = t(3, 9);  // 90
+export const FLOOR_TR    = t(3, 10); // 91
+export const FLOOR_L     = t(4, 8);  // 116
+export const FLOOR_C     = t(4, 9);  // 117  — floor center (warm beige)
+export const FLOOR_R     = t(4, 10); // 118
+export const FLOOR_BL    = t(5, 8);  // 143
+export const FLOOR_B     = t(5, 9);  // 144
+export const FLOOR_BR    = t(5, 10); // 145
 
-export const CHAR2_R1 = t(3, 23);  // char 2, right, frame 1
-export const CHAR2_R2 = t(3, 24);  // char 2, right, frame 2
-export const CHAR2_D1 = t(4, 23);  // char 2, down, frame 1
-export const CHAR2_D2 = t(4, 24);  // char 2, down, frame 2
+// ── Interior floor extended (rows 3-5, cols 11-14) — furniture/details ──
+export const FLOOR_EXT1  = t(3, 11); // 92
+export const FLOOR_EXT2  = t(3, 12); // 93
+export const FLOOR_EXT3  = t(3, 13); // 94  — blue-gray tiles
+export const FLOOR_EXT4  = t(3, 14); // 95
+export const FLOOR_EXT5  = t(4, 11); // 119
+export const FLOOR_EXT6  = t(4, 12); // 120
+export const FLOOR_EXT7  = t(4, 13); // 121
+export const FLOOR_EXT8  = t(4, 14); // 122
+export const FLOOR_EXT9  = t(5, 11); // 146
+export const FLOOR_EXT10 = t(5, 12); // 147
+export const FLOOR_EXT11 = t(5, 13); // 148
+export const FLOOR_EXT12 = t(5, 14); // 149
 
-export const CHAR3_R1 = t(6, 23);  // char 3, right, frame 1
-export const CHAR3_R2 = t(6, 24);  // char 3, right, frame 2
-export const CHAR3_D1 = t(7, 23);  // char 3, down, frame 1
-export const CHAR3_D2 = t(7, 24);  // char 3, down, frame 2
+// ── Interior wall 2nd set (rows 0-2, col 15) ──
+export const WALL2_T     = t(0, 15); // 15
+export const WALL2_M     = t(1, 15); // 42
+export const WALL2_B     = t(2, 15); // 69
 
-export const CHAR4_R1 = t(9, 23);  // char 4, right, frame 1
-export const CHAR4_R2 = t(9, 24);  // char 4, right, frame 2
-export const CHAR4_D1 = t(10, 23); // char 4, down, frame 1
-export const CHAR4_D2 = t(10, 24); // char 4, down, frame 2
+// ── Red roof tiles (rows 0-2, cols 16-22) ──
+export const ROOF_BEAM_T = t(0, 16); // 16  — beam/pillar top
+export const ROOF_RED_TL = t(0, 17); // 17  — red brick top-left
+export const ROOF_RED_T  = t(0, 18); // 18  — red brick top
+export const ROOF_RED_TR = t(0, 19); // 19
+export const ROOF_RED_T2 = t(0, 20); // 20
+export const ROOF_RED_T3 = t(0, 21); // 21
+export const ROOF_RED_T4 = t(0, 22); // 22
+export const ROOF_BEAM_M = t(1, 16); // 43  — beam/pillar mid
+export const ROOF_RED_ML = t(1, 17); // 44  — red brick mid-left
+export const ROOF_RED_M  = t(1, 18); // 45  — red brick middle
+export const ROOF_RED_MR = t(1, 19); // 46
+export const ROOF_RED_M2 = t(1, 20); // 47
+export const ROOF_RED_M3 = t(1, 21); // 48
+export const ROOF_RED_M4 = t(1, 22); // 49
+export const ROOF_BEAM_B = t(2, 16); // 70  — beam/pillar bottom
+export const ROOF_RED_BL = t(2, 17); // 71  — red brick bottom-left
+export const ROOF_RED_B  = t(2, 18); // 72  — red brick bottom
+export const ROOF_RED_BR = t(2, 19); // 73
 
-export const CHAR5_R1 = t(12, 23); // char 5, right, frame 1
-export const CHAR5_R2 = t(12, 24); // char 5, right, frame 2
-export const CHAR5_D1 = t(13, 23); // char 5, down, frame 1
-export const CHAR5_D2 = t(13, 24); // char 5, down, frame 2
+// ── Brown/orange building tiles (rows 4-5, cols 16-22) ──
+export const BLDG_ORG_TL = t(4, 16); // 124
+export const BLDG_ORG_T  = t(4, 17); // 125
+export const BLDG_ORG_TR = t(4, 18); // 126
+export const BLDG_ORG_ML = t(5, 16); // 151
+export const BLDG_ORG_M  = t(5, 17); // 152  — orange/brown brick fill
+export const BLDG_ORG_MR = t(5, 18); // 153
 
-export const CHAR6_R1 = t(15, 23); // char 6, right, frame 1
-export const CHAR6_R2 = t(15, 24); // char 6, right, frame 2
-export const CHAR6_D1 = t(16, 23); // char 6, down, frame 1
-export const CHAR6_D2 = t(16, 24); // char 6, down, frame 2
+// ── Water 9-patch (rows 6-7, cols 8-10) ──
+export const WATER_TL    = t(6, 8);  // 170
+export const WATER_T     = t(6, 9);  // 171
+export const WATER_TR    = t(6, 10); // 172
+export const WATER_BL    = t(7, 8);  // 197
+export const WATER_B     = t(7, 9);  // 198
+export const WATER_BR    = t(7, 10); // 199
+
+// ── Water solid fill (rows 6-7, cols 13-14) ──
+export const WATER_FILL1 = t(6, 13); // 175
+export const WATER_FILL2 = t(6, 14); // 176
+export const WATER_FILL3 = t(7, 13); // 202
+export const WATER_FILL4 = t(7, 14); // 203
+
+// ── Water extended (with borders) ──
+export const WATER_EXT1  = t(6, 11); // 173
+export const WATER_EXT2  = t(6, 12); // 174
+export const WATER_EXT3  = t(7, 11); // 200
+export const WATER_EXT4  = t(7, 12); // 201
+
+// ── Trees — green (rows 8-9, cols 16-19) on green bg ──
+export const TREE_LG_TL  = t(8, 16); // 232  — large tree top-left
+export const TREE_LG_TR  = t(8, 17); // 233  — large tree top-right
+export const TREE_SM_T   = t(8, 18); // 234  — small tree top
+export const TREE_BUSH   = t(8, 19); // 235  — bush/shrub
+export const TREE_LG_BL  = t(9, 16); // 259  — large tree bottom-left
+export const TREE_LG_BR  = t(9, 17); // 260  — large tree bottom-right
+export const TREE_SM_B   = t(9, 18); // 261  — small tree bottom
+export const TREE_BUSH2  = t(9, 19); // 262  — full green
+
+// ── Trees — autumn (rows 10-11, cols 16-19) ──
+export const TREE_AUT_TL = t(10, 16); // 286
+export const TREE_AUT_TR = t(10, 17); // 287
+export const TREE_AUT_SM = t(10, 18); // 288  — (mostly transparent)
+export const TREE_AUT_BL = t(11, 16); // 313
+export const TREE_AUT_BR = t(11, 17); // 314
+
+// ── Characters (cols 23-26, rows 0-17) ──
+// 6 character types, each 3 rows (right/down/up), 4 frames per row
+// Char 1: rows 0-2
+export const CHAR1_R1 = t(0, 23);
+export const CHAR1_R2 = t(0, 24);
+export const CHAR1_R3 = t(0, 25);
+export const CHAR1_R4 = t(0, 26);
+export const CHAR1_D1 = t(1, 23);
+export const CHAR1_D2 = t(1, 24);
+// Char 2: rows 3-5
+export const CHAR2_R1 = t(3, 23);
+export const CHAR2_R2 = t(3, 24);
+export const CHAR2_D1 = t(4, 23);
+// Char 3: rows 6-8
+export const CHAR3_R1 = t(6, 23);
+export const CHAR3_R2 = t(6, 24);
+export const CHAR3_D1 = t(7, 23);
+// Char 4: rows 9-11
+export const CHAR4_R1 = t(9, 23);
+export const CHAR4_R2 = t(9, 24);
+// Char 5: rows 12-14
+export const CHAR5_R1 = t(12, 23);
+export const CHAR5_R2 = t(12, 24);
+// Char 6: rows 15-17
+export const CHAR6_R1 = t(15, 23);
+export const CHAR6_R2 = t(15, 24);

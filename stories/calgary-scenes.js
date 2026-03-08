@@ -1,18 +1,20 @@
 /**
- * Scene maps for "Calgary to Vancouver" using Kenney RPG Urban Pack tiles
- * mixed with custom extra environment tiles.
+ * Scene maps for "Calgary to Vancouver".
  *
- * Tileset references:
+ * Two tilesets:
  *   'env'   — Kenney RPG Urban Pack (27 cols × 18 rows)
  *   'extra' — Custom procedural tiles (16 cols × 2 rows)
  *
- * Kenney tile index = row * 27 + col
- * Extra tile index  = row * 16 + col
+ * Positive values → Kenney 'env' tile index
+ * Negative values → custom 'extra' tile index (decoded as -(val)-1)
  */
 
 import * as K from './calgary-tiles.js';
 
-// ── Extra tileset indices (from calgary-custom-tiles.js extraEnv) ──
+// Encode extra tileset index (negative to distinguish from Kenney)
+function e(idx) { return -(idx) - 1; }
+
+// ── Extra tileset indices (from calgary-custom-tiles.js extraEnv()) ──
 // Row 0: 0=sky, 1=cloud, 2=mtn, 3=mtn2, 4=mtnFar, 5=mtnTrees, 6=sun, 7=cloud2
 //        8=vanSkyline, 9=lightSky, 10=darkSky, 11=darkCloud, 12=tower
 //        13=beam, 14=pillar, 15=planeBody
@@ -21,153 +23,167 @@ import * as K from './calgary-tiles.js';
 //        24=jetwayTop, 25=jetwayFloor, 26=jetwayBot
 //        27=lampPost, 28=darkBldg, 29=darkBldgTop, 30=darkTallBldg, 31=puddle
 
-const X = {
-  SKY: 0, CLOUD: 1, MTN: 2, MTN2: 3, MTN_FAR: 4, MTN_TREES: 5,
-  SUN: 6, CLOUD2: 7, VAN_SKY: 8, LIGHT_SKY: 9,
-  DARK_SKY: 10, DARK_CLOUD: 11, TOWER: 12,
-  BEAM: 13, PILLAR: 14, PLANE_BODY: 15,
-  PLANE_NOSE: 16, PLANE_TAIL: 17,
-  PLANE_CEIL: 18, PLANE_WIN: 19, PLANE_WALL: 20,
-  PLANE_SEAT: 21, PLANE_FLOOR: 22, RUNWAY: 23,
-  JETWAY_TOP: 24, JETWAY_FLOOR: 25, JETWAY_BOT: 26,
-  LAMP: 27, DARK_BLDG: 28, DARK_BLDG_TOP: 29, DARK_TALL: 30, PUDDLE: 31,
-};
+// ── Shorthand: procedural extra tiles ──
+const SK  = e(0);   // sky
+const CL  = e(1);   // cloud
+const MN  = e(2);   // mountain
+const M2  = e(3);   // mountain variant
+const MF  = e(4);   // mountain far
+const MT  = e(5);   // mountain w/ trees
+const SUN = e(6);   // sun
+const CL2 = e(7);   // cloud variant
+const VS  = e(8);   // Vancouver skyline
+const LS  = e(9);   // light sky
+const DS  = e(10);  // dark sky (rain)
+const DC  = e(11);  // dark cloud
+const TW  = e(12);  // Calgary Tower
+const BEA = e(13);  // elevated track beam
+const PIL = e(14);  // elevated track pillar
+const PB  = e(15);  // plane body bg
+const PN  = e(16);  // plane nose
+const PT  = e(17);  // plane tail
+const PC  = e(18);  // plane ceiling
+const PW  = e(19);  // plane window
+const PI  = e(20);  // plane interior wall
+const PS  = e(21);  // plane seat
+const PF  = e(22);  // plane floor
+const RW  = e(23);  // runway
+const JT  = e(24);  // jetway top
+const JF  = e(25);  // jetway floor
+const JB  = e(26);  // jetway bottom
+const LP  = e(27);  // lamp post (rain)
+const DB  = e(28);  // dark building (rain)
+const DT  = e(29);  // dark bldg top (rain)
+const DH  = e(30);  // dark tall bldg (rain)
+const PD  = e(31);  // puddle
 
-// ── Kenney tile shortcuts ──
-const G  = K.GRASS_PLAIN;    // grass
-const GD = K.GRASS_DETAIL;   // grass with detail
-const RH = K.ROAD_H;         // road horizontal
-const RP = K.ROAD_PLAIN;     // road plain
-const SW = K.SIDEWALK;        // sidewalk
-const FW = K.FACADE_WIN;      // facade with window
-const FP = K.FACADE_PLAIN;    // facade plain
-const FD = K.FACADE_DOOR;     // facade door
-const BT = K.BLDG_TOP;        // building top
-const BM = K.BLDG_MID;        // building middle
-const BB = K.BLDG_BOT;        // building bottom
-const TT = K.TREE_SM_T;       // small tree top
-const TB = K.TREE_SM_B;       // small tree bottom
-const BU = K.BUSH;            // bush
-const WA = K.WATER;           // water
-const FL = K.FLOOR_TILE;      // tiled floor (airport)
-const WP = K.WALL_PLAIN;      // interior wall plain
-const WW = K.WALL_WINDOW;     // wall with window
-const FLW = K.FLOOR_WOOD;     // wood floor
-const CL = K.COUCH_L;         // couch left
-const CR = K.COUCH_R;         // couch right
-const TV = K.TV_SET;           // TV
-const PA = K.PAINTING;         // painting
-const BKT = K.BOOKSHELF_T;    // bookshelf top
-const BKB = K.BOOKSHELF_B;    // bookshelf bottom
-const CU = K.CURTAIN;         // curtain
-const RU = K.RUG;             // rug
-const PL = K.PLANT;           // plant
-const DE = K.DESK;            // desk
-const CH = K.CHAIR;           // chair
-const CA = K.CARPET;          // carpet
-const SH = K.SHELF;           // shelf
-const DR = K.DOOR;            // door
-const R_TL = K.ROOF_TL;
-const R_T  = K.ROOF_T;
-const R_TR = K.ROOF_TR;
-const R_ML = K.ROOF_ML;
-const R_M  = K.ROOF_M;
-const R_MR = K.ROOF_MR;
-const R_BL = K.ROOF_BL;
-const R_B  = K.ROOF_B;
-const R_BR = K.ROOF_BR;
-const FN_L = K.FENCE_L;
-const FN_M = K.FENCE_M;
-const FN_R = K.FENCE_R;
-const SI   = K.SIGN;
-const LA   = K.LAMP;
-const BE   = K.BENCH;
-const SG   = K.SHOP_TOP;
-const SB   = K.SHOP_BOT;
-const SD   = K.SHOP_DOOR;
+// ── Shorthand: Kenney tiles ──
+const GF  = K.GRASS_FILL1;   // 5  — solid green fill
+const GF2 = K.GRASS_FILL2;   // 6
+const GC  = K.GRASS_C;       // 28 — grass center w/ border detail
+const GT  = K.GRASS_T;       // 1  — grass top edge
+const GB  = K.GRASS_B;       // 55 — grass bottom edge
+const GL  = K.GRASS_L;       // 27 — grass left edge
+const GR  = K.GRASS_R;       // 29 — grass right edge
+const GTL = K.GRASS_TL;      // 0  — grass top-left corner
+const GTR = K.GRASS_TR;      // 2
+const GBL = K.GRASS_BL;      // 54
+const GBR = K.GRASS_BR;      // 56
+const PH  = K.PATH_C;        // 109 — path center (beige)
+const PHF = K.PATH_FILL1;    // 86  — path solid fill
+const PT2 = K.PATH_T;        // 82  — path top edge
+const PB2 = K.PATH_B;        // 136 — path bottom edge
+const WC  = K.WALL_C;        // 36  — wall center (gray fill)
+const WL  = K.WALL_L;        // 35
+const WR2 = K.WALL_R;        // 37
+const WT  = K.WALL_T;        // 9
+const WB  = K.WALL_B;        // 63
+const WTL = K.WALL_TL;       // 8
+const WTR = K.WALL_TR;       // 10
+const WBL = K.WALL_BL;       // 62
+const WBR = K.WALL_BR;       // 64
+const FC  = K.FLOOR_C;       // 117 — floor center (warm beige)
+const FL  = K.FLOOR_L;       // 116
+const FR  = K.FLOOR_R;       // 118
+const FT  = K.FLOOR_T;       // 90
+const FB  = K.FLOOR_B;       // 144
+const FTL = K.FLOOR_TL;      // 89
+const FTR = K.FLOOR_TR;      // 91
+const FBL = K.FLOOR_BL;      // 143
+const FBR = K.FLOOR_BR;      // 145
+const WA  = K.WATER_FILL1;   // 175 — water solid fill
+const WA2 = K.WATER_FILL2;   // 176
+const WAT = K.WATER_T;       // 171 — water top edge
+const WAB = K.WATER_B;       // 198 — water bottom
+const TT  = K.TREE_SM_T;     // 234 — small tree top
+const TB  = K.TREE_SM_B;     // 261 — small tree bottom
+const BU  = K.TREE_BUSH;     // 235 — bush
+const RTL = K.ROOF_RED_TL;   // 17  — red roof top-left
+const RT  = K.ROOF_RED_T;    // 18  — red roof top
+const RTR = K.ROOF_RED_TR;   // 19  — red roof top-right
+const RBL = K.ROOF_RED_BL;   // 71  — red roof bottom-left
+const RB  = K.ROOF_RED_B;    // 72  — red roof bottom
+const RBR = K.ROOF_RED_BR;   // 73  — red roof bottom-right
+const RML = K.ROOF_RED_ML;   // 44  — red roof mid-left
+const RM  = K.ROOF_RED_M;    // 45  — red roof middle (fill)
+const RMR = K.ROOF_RED_MR;   // 46
+const OBT = K.BLDG_ORG_T;   // 125 — orange building top
+const OBM = K.BLDG_ORG_M;   // 152 — orange building middle
+const GD  = K.GRASS_DET_TL;  // 3   — grass with detail
+const PA  = K.FLOOR_EXT3;    // 94  — blue-gray accent tile
+const FE1 = K.FLOOR_EXT1;    // 92
+const FE2 = K.FLOOR_EXT2;    // 93
+const DE  = K.FLOOR_EXT5;    // 119 — desk/furniture area
 
-// ── Scene Maps ──
-
-// Each scene uses a combination of Kenney 'env' tiles and 'extra' custom tiles.
-// We encode which tileset a tile belongs to via a wrapper.
-// The draw function will handle dispatching to the correct tileset.
-
-// For simplicity in map arrays, we'll use negative numbers for 'extra' tileset
-// (actual index = -(value) - 1) and positive for Kenney 'env' tileset.
-function e(idx) { return -(idx) - 1; } // encode extra tile
-
-// ── Scene 1: Driving through Calgary ──
+/* ═══════════════════════════════════════════════════════════════════════
+ *  Scene 1: Driving through Calgary
+ *  Sky + procedural buildings/tower, Kenney grass ground, procedural road
+ * ═══════════════════════════════════════════════════════════════════════ */
 export const calgaryDriveMap = [
-  [e(X.SUN),  e(X.SKY),  e(X.SKY),  e(X.SKY), e(X.CLOUD),e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),e(X.CLOUD2),e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),e(X.CLOUD),e(X.SKY)],
-  [e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY)],
-  [e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY)],
-  [e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY)],
-  [e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY),  e(X.SKY)],
-  [e(X.SKY),  e(X.SKY),  BT,  e(X.SKY),  e(X.SKY),  BT,  e(X.SKY),e(X.TOWER),e(X.SKY),  BT,  e(X.SKY),  BT,  e(X.SKY),  e(X.SKY),  BT,  e(X.SKY),  e(X.SKY),  BT,  e(X.SKY),  e(X.SKY)],
-  [e(X.SKY),  e(X.SKY),  FW,  e(X.SKY),  e(X.SKY),  BM,  e(X.SKY),e(X.TOWER),e(X.SKY),  BM,  e(X.SKY),  FW,  e(X.SKY),  e(X.SKY),  BM,  e(X.SKY),  e(X.SKY),  FW,  e(X.SKY),  e(X.SKY)],
-  [e(X.SKY),  e(X.SKY),  FW,  e(X.SKY),  e(X.SKY),  BM,  e(X.SKY),e(X.TOWER),e(X.SKY),  BM,  e(X.SKY),  FW,  e(X.SKY),  e(X.SKY),  BM,  e(X.SKY),  e(X.SKY),  FW,  e(X.SKY),  e(X.SKY)],
-  [e(X.SKY),  e(X.SKY),  FD,  e(X.SKY),  e(X.SKY),  BB,  e(X.SKY),e(X.TOWER),e(X.SKY),  BB,  e(X.SKY),  FD,  e(X.SKY),  e(X.SKY),  BB,  e(X.SKY),  e(X.SKY),  FD,  e(X.SKY),  e(X.SKY)],
-  [G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G],
-  [SW,  SW,  SW,  SW,  SW,  SW,  SW,  SW,  SW,  SW,  SW,  SW,  SW,  SW,  SW,  SW,  SW,  SW,  SW,  SW],
-  [RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH],
-  [RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP],
-  [G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G],
-  [G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G],
+  [SUN, SK,  SK,  SK,  CL,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK, CL2, SK,  SK,  SK,  SK,  CL,  SK],
+  [SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
+  [SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
+  [SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
+  [SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
+  [SK,  SK, OBT, SK,  SK, OBT, SK,  TW,  SK, OBT, SK, OBT, SK,  SK, OBT, SK,  SK, OBT, SK,  SK],
+  [SK,  SK, OBM, SK,  SK, OBM, SK,  TW,  SK, OBM, SK, OBM, SK,  SK, OBM, SK,  SK, OBM, SK,  SK],
+  [SK,  SK, OBM, SK,  SK, OBM, SK,  TW,  SK, OBM, SK, OBM, SK,  SK, OBM, SK,  SK, OBM, SK,  SK],
+  [SK,  SK, OBM, SK,  SK, OBM, SK,  TW,  SK, OBM, SK, OBM, SK,  SK, OBM, SK,  SK, OBM, SK,  SK],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
+  [PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF],
+  [PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF],
+  [PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
 ];
 
-// ── Scene 2: Airport food court ──
+/* ═══════════════════════════════════════════════════════════════════════
+ *  Scene 2: Airport food court
+ *  Kenney interior walls (top) + Kenney floor tiles (bottom)
+ * ═══════════════════════════════════════════════════════════════════════ */
 export const airportFoodMap = [
-  [WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP],
-  [WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP],
-  [WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP],
-  [WP,  WP,  WP,  SI,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  SI,  WP,  WP,  WP,  WP],
-  [WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP],
-  [FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL],
-  [FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL],
-  [FL,  FL,  FL,  FL,  FL,  FL,  FL,  DE,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL],
-  [FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL],
-  [FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL],
-  [FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL],
-  [FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL],
-  [FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL],
-  [FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL],
-  [FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL],
+  [WTL, WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT, WTR],
+  [WL,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC, WR2],
+  [WL,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC, WR2],
+  [WL,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC, WR2],
+  [WBL, WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB, WBR],
+  [FTL, FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT, FTR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  DE,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FBL, FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB, FBR],
 ];
 
-// ── Scene 3: Boarding the plane ──
-const JT = e(X.JETWAY_TOP);
-const JF = e(X.JETWAY_FLOOR);
-const JB = e(X.JETWAY_BOT);
-const PB = e(X.PLANE_BODY);
-const PN = e(X.PLANE_NOSE);
-const PT = e(X.PLANE_TAIL);
-const SK = e(X.SKY);
-
+/* ═══════════════════════════════════════════════════════════════════════
+ *  Scene 3: Boarding the plane
+ *  Kenney walls/floor (left), procedural jetway + plane (right), sky
+ * ═══════════════════════════════════════════════════════════════════════ */
 export const boardingMap = [
-  [WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  SK,  SK,  SK,  SK,  SK,  SK],
-  [WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  WW,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
-  [WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  WW,  WP,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
-  [WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
-  [WP,  WP,  WP,  JT,  JT,  JT,  JT,  JT,  JT,  JT,  JT,  JT,  JT,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
-  [FL,  FL,  FL,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  PT,  PB,  PB,  PB,  PB,  PN,  SK],
-  [FL,  FL,  FL,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  PT,  PB,  PB,  PB,  PB,  PN,  SK],
-  [FL,  FL,  FL,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
-  [FL,  FL,  FL,  JB,  JB,  JB,  JB,  JB,  JB,  JB,  JB,  JB,  JB,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
-  [FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
-  [FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
-  [FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
-  [FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  SK,  SK,  SK,  SK,  SK,  SK],
-  [FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  G,   G,   G,   G,   G,   G,   G],
-  [FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  FL,  G,   G,   G,   G,   G,   G,   G,   G],
+  [WTL, WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT, WTR, SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
+  [WL,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC, WR2, SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
+  [WL,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC, WR2, SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
+  [WBL, WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB, WBR, SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
+  [FTL, FT,  FT,  JT,  JT,  JT,  JT,  JT,  JT,  JT,  JT,  JT,  JT,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
+  [FL,  FC,  FC,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  PT,  PB,  PB,  PB,  PB,  PN,  SK],
+  [FL,  FC,  FC,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  PT,  PB,  PB,  PB,  PB,  PN,  SK],
+  [FL,  FC,  FC,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  JF,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
+  [FL,  FC,  FC,  JB,  JB,  JB,  JB,  JB,  JB,  JB,  JB,  JB,  JB,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  SK,  SK,  SK,  SK,  SK,  SK],
+  [FBL, FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
 ];
 
-// ── Scene 4: Plane interior ──
-const PC = e(X.PLANE_CEIL);
-const PW = e(X.PLANE_WIN);
-const PI = e(X.PLANE_WALL);
-const PS = e(X.PLANE_SEAT);
-const PF = e(X.PLANE_FLOOR);
-
+/* ═══════════════════════════════════════════════════════════════════════
+ *  Scene 4: Plane interior (all procedural)
+ * ═══════════════════════════════════════════════════════════════════════ */
 export const planeInteriorMap = [
   [PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC],
   [PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC,  PC],
@@ -186,16 +202,12 @@ export const planeInteriorMap = [
   [PF,  PF,  PF,  PF,  PF,  PF,  PF,  PF,  PF,  PF,  PF,  PF,  PF,  PF,  PF,  PF,  PF,  PF,  PF,  PF],
 ];
 
-// ── Scene 5: Landing in Vancouver ──
-const LS = e(X.LIGHT_SKY);
-const MN = e(X.MTN);
-const M2 = e(X.MTN2);
-const MF = e(X.MTN_FAR);
-const VS = e(X.VAN_SKY);
-const RW = e(X.RUNWAY);
-
+/* ═══════════════════════════════════════════════════════════════════════
+ *  Scene 5: Landing in Vancouver
+ *  Procedural sky/mountains, Kenney water + grass, procedural runway
+ * ═══════════════════════════════════════════════════════════════════════ */
 export const landingMap = [
-  [SK,  SK,  SK,e(X.CLOUD),SK,  SK,  SK,  SK,e(X.CLOUD2),SK,  SK,  SK,  SK,e(X.CLOUD),SK,  SK,  SK,  SK,  SK,  SK],
+  [SK,  SK,  SK,  CL,  SK,  SK,  SK,  SK, CL2, SK,  SK,  SK,  SK,  CL,  SK,  SK,  SK,  SK,  SK,  SK],
   [SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
   [SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
   [SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
@@ -207,65 +219,59 @@ export const landingMap = [
   [WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA],
   [WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA],
   [WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA,  WA],
-  [G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G],
-  [RW,  RW,  RP,  RP,  RP,  RW,  RW,  RP,  RP,  RP,  RP,  RW,  RW,  RP,  RP,  RP,  RP,  RW,  RW,  RP],
-  [G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
+  [RW,  RW, PHF, PHF, PHF, RW,  RW, PHF, PHF, PHF, PHF, RW,  RW, PHF, PHF, PHF, PHF, RW,  RW, PHF],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
 ];
 
-// ── Scene 6: SkyTrain ──
-const BEA = e(X.BEAM);
-const PIL = e(X.PILLAR);
-const MT  = e(X.MTN_TREES);
-
+/* ═══════════════════════════════════════════════════════════════════════
+ *  Scene 6: SkyTrain
+ *  Procedural sky/mountains/beam/pillar, Kenney grass ground
+ * ═══════════════════════════════════════════════════════════════════════ */
 export const trainMap = [
-  [SK,  SK,  SK,  SK,e(X.CLOUD),SK,  SK,  SK,e(X.CLOUD2),SK,  SK,  SK,  SK,e(X.CLOUD),SK,  SK,  SK,  SK,  SK,  SK],
+  [SK,  SK,  SK,  SK,  CL,  SK,  SK,  SK, CL2, SK,  SK,  SK,  SK,  CL,  SK,  SK,  SK,  SK,  SK,  SK],
   [SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
   [SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
   [MF,  MF,  MN,  M2,  MF,  MT,  M2,  MF,  MF,  MN,  M2,  MF,  MN,  M2,  MT,  MF,  MN,  M2,  MF,  MN],
   [MN,  M2,  MN,  MN,  M2,  MN,  MN,  M2,  MN,  MN,  MN,  M2,  MN,  MN,  M2,  MN,  MN,  MN,  M2,  MN],
   [VS,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  VS],
-  [BEA, BEA, BEA, BEA, BEA, BEA, BEA, BEA, BEA, BEA, BEA, BEA, BEA, BEA, BEA, BEA, BEA, BEA, BEA, BEA],
+  [BEA,BEA,BEA,BEA,BEA,BEA,BEA,BEA,BEA,BEA,BEA,BEA,BEA,BEA,BEA,BEA,BEA,BEA,BEA,BEA],
   [SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
   [SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
-  [PIL, SK,  SK,  SK,  SK,  PIL, SK,  SK,  SK,  SK,  PIL, SK,  SK,  SK,  SK,  PIL, SK,  SK,  SK,  PIL],
+  [PIL, SK,  SK,  SK,  SK, PIL, SK,  SK,  SK,  SK, PIL, SK,  SK,  SK,  SK, PIL, SK,  SK,  SK, PIL],
   [SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
-  [G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G],
-  [G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G],
-  [G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G],
-  [G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
 ];
 
-// ── Scene 7: Arriving at friend's house ──
+/* ═══════════════════════════════════════════════════════════════════════
+ *  Scene 7: Arriving at friend's house
+ *  Sky, Kenney grass/trees/roof, procedural path
+ * ═══════════════════════════════════════════════════════════════════════ */
 export const arrivalMap = [
-  [SK,  SK,  SK,  SK,e(X.CLOUD),SK,  SK,  SK,  SK,e(X.SUN),SK,  SK,  SK,e(X.CLOUD2),SK,  SK,  SK,  SK,e(X.CLOUD),SK],
+  [SK,  SK,  SK,  SK,  CL,  SK,  SK,  SK,  SK, SUN, SK,  SK,  SK, CL2, SK,  SK,  SK,  SK,  CL,  SK],
   [SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
   [SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
   [SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
-  [SK,  SK,  SK,  SK,  SK,  SK,  SK, R_TL,R_T, R_T, R_TR, SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
-  [G,   G,   G,   TT,  G,   G,   G, R_BL,R_B, R_B, R_BR, G,   G,   G,   G,   G,   G,   TT,  G,   G],
-  [G,   G,   G,   TB,  G,   G,   G,   FW,  FW,  FD,  FW,  FW,  G,   G,   G,   G,   G,   TB,  G,   G],
-  [G,   G,   G,   G,   G,   G,   G,   FP,  FP,  DR,  FP,  FP,  G,   G,   G,   G,   G,   G,   G,   G],
-  [FN_L,FN_M,FN_M,FN_M,FN_R,G,   G,   G,   G,   GD,  G,   G,   G,   G,  FN_L,FN_M,FN_M,FN_M,FN_M,FN_R],
-  [G,   G,   G,   G,   G,   G,   G,   G,   G,   GD,  G,   G,   G,   G,   G,   G,   G,   G,   G,   G],
-  [BU,  G,   G,   G,   G,   G,   G,   G,   G,   GD,  G,   G,   G,   G,   G,   G,   BU,  G,   G,   G],
-  [G,   G,   G,   G,   BU,  G,   G,   G,   G,   GD,  G,   G,   G,   BU,  G,   G,   G,   G,   G,   G],
-  [G,   G,   G,   G,   G,   G,   G,   GD,  GD,  GD,  GD,  GD,  G,   G,   G,   G,   G,   G,   G,   G],
-  [GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  G,   G,   G,   GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD],
-  [G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G],
+  [SK,  SK,  SK,  SK,  SK,  SK,  SK, RTL, RT,  RT, RTR, SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
+  [GF,  GF,  GF,  TT,  GF,  GF,  GF, RBL, RB,  RB, RBR, GF,  GF,  GF,  GF,  GF,  GF,  TT,  GF,  GF],
+  [GF,  GF,  GF,  TB,  GF,  GF,  GF, OBT, OBM, OBM, OBT, GF,  GF,  GF,  GF,  GF,  GF,  TB,  GF,  GF],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF, OBM, OBM, OBM, OBM, GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF, PHF, GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF, PHF, GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
+  [BU,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF, PHF, GF,  GF,  GF,  GF,  GF,  GF,  BU,  GF,  GF,  GF],
+  [GF,  GF,  GF,  GF,  BU,  GF,  GF,  GF,  GF, PHF, GF,  GF,  GF,  BU,  GF,  GF,  GF,  GF,  GF,  GF],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF, PHF, PHF, PHF, PHF, PHF, GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
+  [PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, GF,  GF,  GF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
 ];
 
-// ── Scene 8: Walking in the rain ──
-const DS = e(X.DARK_SKY);
-const DC = e(X.DARK_CLOUD);
-const DB = e(X.DARK_BLDG);
-const DT = e(X.DARK_BLDG_TOP);
-const DH = e(X.DARK_TALL);
-const LP = e(X.LAMP);
-const PD = e(X.PUDDLE);
-const WS = K.SIDEWALK_EDGE;  // wet sidewalk (reuse)
-const WR = K.ROAD_DASH;      // wet road (reuse)
-const DG = K.GRASS_EDGE_B;   // dark grass (reuse)
-
+/* ═══════════════════════════════════════════════════════════════════════
+ *  Scene 8: Walking in the rain
+ *  Procedural dark sky/buildings/rain, Kenney grass + path for ground
+ * ═══════════════════════════════════════════════════════════════════════ */
 export const rainWalkMap = [
   [DC,  DS,  DS,  DC,  DS,  DS,  DS,  DC,  DS,  DS,  DS,  DC,  DS,  DS,  DC,  DS,  DS,  DS,  DC,  DS],
   [DS,  DS,  DC,  DS,  DS,  DS,  DC,  DS,  DS,  DC,  DS,  DS,  DS,  DS,  DS,  DC,  DS,  DS,  DS,  DS],
@@ -276,90 +282,100 @@ export const rainWalkMap = [
   [DS,  DS,  DB,  DS,  DS,  DH,  DS,  LP,  DS,  DB,  DS,  DS,  DS,  DH,  DS,  LP,  DS,  DB,  DS,  DS],
   [DS,  DS,  DB,  DS,  DS,  DH,  DS,  LP,  DS,  DB,  DS,  DS,  DS,  DH,  DS,  LP,  DS,  DB,  DS,  DS],
   [DS,  DS,  DB,  DS,  DS,  DH,  DS,  LP,  DS,  DB,  DS,  DS,  DS,  DH,  DS,  LP,  DS,  DB,  DS,  DS],
-  [DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG],
-  [SW,  SW,  SW,  PD,  SW,  SW,  SW,  SW,  SW,  SW,  PD,  SW,  SW,  SW,  SW,  SW,  SW,  PD,  SW,  SW],
-  [RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH,  RH],
-  [RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP,  RP],
-  [SW,  SW,  PD,  SW,  SW,  SW,  SW,  PD,  SW,  SW,  SW,  SW,  SW,  PD,  SW,  SW,  SW,  SW,  SW,  PD],
-  [DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG,  DG],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
+  [PHF, PHF, PHF, PD,  PHF, PHF, PHF, PHF, PHF, PHF, PD,  PHF, PHF, PHF, PHF, PHF, PHF, PD,  PHF, PHF],
+  [PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF],
+  [PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF],
+  [PHF, PHF, PD,  PHF, PHF, PHF, PHF, PD,  PHF, PHF, PHF, PHF, PHF, PD,  PHF, PHF, PHF, PHF, PHF, PD],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
 ];
 
-// ── Scene 9: Fairy garden (uses Kenney trees + procedural overlays) ──
+/* ═══════════════════════════════════════════════════════════════════════
+ *  Scene 9: Fairy garden
+ *  Sky, Kenney trees/bushes/grass
+ * ═══════════════════════════════════════════════════════════════════════ */
 export const fairyGardenMap = [
   [SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK],
   [SK,  SK,  SK,  SK,  SK,  SK,  TT,  SK,  TT,  SK,  SK,  SK,  SK,  SK,  TT,  SK,  SK,  SK,  SK,  SK],
   [SK,  SK,  TT,  SK,  SK,  SK,  TT,  SK,  TT,  SK,  SK,  TT,  SK,  SK,  TT,  SK,  SK,  TT,  SK,  SK],
   [SK,  SK,  TB,  SK,  SK,  TT,  TB,  TT,  TB,  TT,  SK,  TB,  SK,  SK,  TB,  SK,  SK,  TB,  SK,  SK],
-  [SK,  SK,  G,   SK,  SK,  TB,  G,   TB,  G,   TB,  SK,  G,   SK,  TT,  G,   TT,  SK,  G,   SK,  SK],
-  [G,   G,   G,   G,   BU,  G,   G,   G,   G,   G,   BU,  G,   G,   TB,  G,   TB,  G,   G,   G,   G],
-  [G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G],
-  [FN_L,FN_M,FN_M,FN_M,FN_R,G,   G,   G,   G,   G,   G,   G,   G,   G,   G,  FN_L,FN_M,FN_M,FN_M,FN_R],
-  [G,   G,   BU,  G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   BU,  G,   G,   G,   BU,  G,   G],
-  [GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD],
-  [GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD,  GD],
-  [G,   G,   G,   G,   BU,  G,   G,   G,   G,   BU,  G,   G,   G,   G,   G,   BU,  G,   G,   G,   G],
-  [G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G,   G],
-  [G,   G,   TT,  G,   G,   G,   G,   G,   TT,  G,   G,   G,   G,   TT,  G,   G,   G,   G,   TT,  G],
-  [G,   G,   TB,  G,   G,   G,   G,   G,   TB,  G,   G,   G,   G,   TB,  G,   G,   G,   G,   TB,  G],
+  [SK,  SK,  GF,  SK,  SK,  TB,  GF,  TB,  GF,  TB,  SK,  GF,  SK,  TT,  GF,  TT,  SK,  GF,  SK,  SK],
+  [GF,  GF,  GF,  GF,  BU,  GF,  GF,  GF,  GF,  GF,  BU,  GF,  GF,  TB,  GF,  TB,  GF,  GF,  GF,  GF],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
+  [GF,  GF,  BU,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  BU,  GF,  GF,  GF,  BU,  GF,  GF],
+  [PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF],
+  [PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF, PHF],
+  [GF,  GF,  GF,  GF,  BU,  GF,  GF,  GF,  GF,  BU,  GF,  GF,  GF,  GF,  GF,  BU,  GF,  GF,  GF,  GF],
+  [GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF,  GF],
+  [GF,  GF,  TT,  GF,  GF,  GF,  GF,  GF,  TT,  GF,  GF,  GF,  GF,  TT,  GF,  GF,  GF,  GF,  TT,  GF],
+  [GF,  GF,  TB,  GF,  GF,  GF,  GF,  GF,  TB,  GF,  GF,  GF,  GF,  TB,  GF,  GF,  GF,  GF,  TB,  GF],
 ];
 
-// ── Scene 10: Couch & TV ──
-const WPL = K.WALL_2;  // wall variant
-
+/* ═══════════════════════════════════════════════════════════════════════
+ *  Scene 10: Couch & TV
+ *  Kenney interior walls (top) + Kenney wood floor (bottom)
+ * ═══════════════════════════════════════════════════════════════════════ */
 export const couchTVMap = [
-  [WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP],
-  [WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP],
-  [WP,  BKT, WP,  CU,  WP,  WP,  PA,  WP,  TV,  TV,  WP,  PA,  WP,  WP,  CU,  WP,  BKT, WP,  PL,  WP],
-  [WP,  BKB, WP,  CU,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  CU,  WP,  BKB, WP,  PL,  WP],
-  [WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, DE,  DE,  FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, CL,  CR,  FLW, FLW, FLW, CL,  CR,  FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, RU,  RU,  RU,  RU,  RU,  RU,  RU,  RU,  RU,  RU,  RU,  RU,  RU,  FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
+  [WTL, WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT, WTR],
+  [WL,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC, WR2],
+  [WL,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC, WR2],
+  [WL,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC, WR2],
+  [WBL, WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB, WBR],
+  [FTL, FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT, FTR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  DE,  DE,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FE1, FE2, FC,  FC,  FC,  FE1, FE2, FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FBL, FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB, FBR],
 ];
 
-// ── Scene 11: Drawing together ──
+/* ═══════════════════════════════════════════════════════════════════════
+ *  Scene 11: Drawing together
+ *  Kenney walls (top) + Kenney floor (bottom) + desk area
+ * ═══════════════════════════════════════════════════════════════════════ */
 export const drawingMap = [
-  [WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP],
-  [WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP],
-  [PA,  WP,  PA,  WP,  PA,  WP,  PA,  WP,  PA,  WP,  WP,  PA,  WP,  PA,  WP,  PA,  WP,  PA,  WP,  WP],
-  [WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP],
-  [WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, DE,  DE,  DE,  DE,  DE,  DE,  FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, DE,  DE,  DE,  DE,  DE,  DE,  FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
+  [WTL, WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT, WTR],
+  [WL,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC, WR2],
+  [WL,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC, WR2],
+  [WL,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC, WR2],
+  [WBL, WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB, WBR],
+  [FTL, FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT, FTR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  DE,  DE,  DE,  DE,  DE,  DE,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  DE,  DE,  DE,  DE,  DE,  DE,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FBL, FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB, FBR],
 ];
 
-// ── Scene 12: Party ──
+/* ═══════════════════════════════════════════════════════════════════════
+ *  Scene 12: Party
+ *  Kenney walls (decorated) + Kenney floor
+ * ═══════════════════════════════════════════════════════════════════════ */
 export const partyMap = [
-  [WP,  PA,  PA,  PA,  PA,  PA,  PA,  PA,  WP,  PA,  PA,  PA,  PA,  PA,  PA,  PA,  WP,  PA,  PA,  PA],
-  [PA,  WP,  WP,  PA,  WP,  WP,  PA,  WP,  WP,  PA,  WP,  WP,  PA,  WP,  WP,  PA,  WP,  WP,  PA,  WP],
-  [WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP],
-  [WP,  PA,  WP,  WP,  WP,  WP,  PA,  WP,  WP,  WP,  WP,  PA,  WP,  WP,  WP,  WP,  PA,  WP,  WP,  WP],
-  [WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP,  WP],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, DE,  FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
-  [FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW, FLW],
+  [WTL, WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT,  WT, WTR],
+  [WL,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC, WR2],
+  [WL,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC, WR2],
+  [WL,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC,  WC, WR2],
+  [WBL, WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB,  WB, WBR],
+  [FTL, FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT,  FT, FTR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  DE,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FL,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FC,  FR],
+  [FBL, FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB,  FB, FBR],
 ];
 
 /**
