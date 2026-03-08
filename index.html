@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Story Time - 8-Bit Animated Stories</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header id="title-screen">
+      <h1>Story Time</h1>
+      <p class="subtitle">8-Bit Animated Stories</p>
+      <div id="story-list"></div>
+    </header>
+
+    <div id="stage" class="hidden">
+      <canvas id="game-canvas"></canvas>
+      <div id="dialog-box" class="hidden">
+        <span id="dialog-speaker"></span>
+        <p id="dialog-text"></p>
+        <span id="dialog-prompt" class="blink">&#9660;</span>
+      </div>
+      <div id="controls">
+        <button id="btn-sound" title="Toggle sound">&#9834; Sound</button>
+        <button id="btn-back" title="Back to stories">&#9664; Back</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
