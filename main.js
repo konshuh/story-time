@@ -10,10 +10,9 @@ import { SoundEngine } from './engine/sound.js';
 import { StorySequencer } from './engine/story.js';
 
 // ── Available stories (add new imports here) ──
-import * as theLostFirefly from './stories/the-lost-firefly.js';
 import * as calgaryToVancouver from './stories/calgary-to-vancouver.js';
 
-const STORIES = [theLostFirefly, calgaryToVancouver];
+const STORIES = [calgaryToVancouver];
 
 // ── DOM refs ──
 const titleScreen = document.getElementById('title-screen');

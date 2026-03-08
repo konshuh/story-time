@@ -45,6 +45,24 @@ export class StorySequencer {
     this._dialogDone = false;
   }
 
+  /**
+   * Load an image from a URL and register it as a tileset.
+   * @param {string} name
+   * @param {string} url
+   * @returns {Promise<HTMLImageElement>}
+   */
+  loadTileset(name, url) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        this.renderer.addTileset(name, img);
+        resolve(img);
+      };
+      img.onerror = () => reject(new Error(`Failed to load tileset: ${url}`));
+      img.src = url;
+    });
+  }
+
   /** Build the context object passed to story scripts. */
   _buildContext() {
     const seq = this;
@@ -81,6 +99,10 @@ export class StorySequencer {
 
       drawScene(fn) {
         seq.sceneDraw = fn;
+      },
+
+      loadTileset(name, url) {
+        return seq.loadTileset(name, url);
       },
     };
   }
