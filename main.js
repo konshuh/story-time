@@ -11,8 +11,9 @@ import { StorySequencer } from './engine/story.js';
 
 // ── Available stories (add new imports here) ──
 import * as calgaryToVancouver from './stories/calgary-to-vancouver.js';
+import * as mountainTrail from './stories/mountain-trail.js';
 
-const STORIES = [calgaryToVancouver];
+const STORIES = [calgaryToVancouver, mountainTrail];
 
 // ── DOM refs ──
 const titleScreen = document.getElementById('title-screen');
